@@ -2,6 +2,7 @@ import sqlite3
 from models.genre import BookGenre
 from models.book import Book
 from models.user import User
+from models.employee import Employee
 
 DB_NAME = "library.db"
 
@@ -108,4 +109,12 @@ class DBManager:
     def get_all_employees(self):
         c = self.conn.cursor()
         c.execute('SELECT name, position FROM employee')
-        return [{"name": name, "position": position} for name, position in c.fetchall()]
+        return [Employee(name, position) for name, position in c.fetchall()]
+    
+    def add_employee(self, name, position):
+        c = self.conn.cursor()
+        c.execute('''
+            INSERT INTO employee (name, position)
+            VALUES (?, ?)
+        ''', (name, position))
+        self.conn.commit()

@@ -106,10 +106,26 @@ class LibraryGUI:
         listado = "\n".join([f"{u.name} - Libros prestados: {', '.join([b.title for b in u.borrowed_books])}" for u in users])
         messagebox.showinfo("Usuarios en el Sistema", listado)
 
+    # filepath: c:\Users\Usuario\Desktop\gestor_biblioteca-main\ui\gui.py
+
     def show_employee(self):
         employees = self.library.employees
         if not employees:
             messagebox.showinfo("Empleados", "No hay empleados registrados.")
             return
-        listado = "\n".join([f"{e.name} - Cargo: {e.role}" for e in employees])
+        listado = "\n".join([f"{e.name} - Cargo: {e.position}" for e in employees])
         messagebox.showinfo("Empleados en el Sistema", listado)
+
+    def add_employee(self):
+        name = simpledialog.askstring("Nombre del empleado", "Ingrese el nombre del empleado:")
+        position = simpledialog.askstring("Cargo del empleado", "Ingrese el cargo del empleado:")
+
+        if not name or not position:
+            messagebox.showerror("Error", "Debe ingresar tanto el nombre como el cargo.")
+            return
+
+        try:
+            self.library.add_employee(name, position)
+            messagebox.showinfo("Éxito", f"Empleado '{name}' agregado con el cargo '{position}'.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo agregar el empleado: {e}")

@@ -26,3 +26,7 @@ class Library:
     def add_user(self, user):
         self.users.append(user)
         self.db.add_user(user)
+
+    def add_employee(self, name, position):
+        self.db_manager.add_employee(name, position)
+        self.employees = self.db_manager.get_all_employees() 
